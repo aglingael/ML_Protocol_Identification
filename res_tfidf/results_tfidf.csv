@@ -311,8 +311,6 @@ header,dim_red,algo,params,train_fold,test_fold,train,test,confusion
  [  0   0   0 600]]
 
 "
-header,dim_red,algo,params,train_fold,test_fold,train,test,confusion
-header,dim_red,algo,params,train_fold,test_fold,train,test,confusion
 0,1,DT,{'max_depth': 3},"0.7686,0.7718,0.7707,0.7677,0.7673","0.7704,0.7567,0.7617,0.7725,0.7754",0.7692,0.7673,"[[600   0   0   0]
  [  0 413   0 187]
  [  0   0 600   0]
@@ -625,4 +623,3 @@ header,dim_red,algo,params,train_fold,test_fold,train,test,confusion
  [  0 596   2   2]]
 
 "
-header,dim_red,algo,params,train_fold,test_fold,train,test,confusion
