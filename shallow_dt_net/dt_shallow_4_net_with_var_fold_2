@@ -1,0 +1,37 @@
+digraph Tree {
+node [shape=box, style="filled, rounded", color="black", fontname="helvetica"] ;
+edge [fontname="helvetica"] ;
+0 [label="X[10] <= 218378.008\ngini = 0.75\nsamples = 9600\nvalue = [2400, 2400, 2400, 2400]\nclass = fec", fillcolor="#ffffff"] ;
+1 [label="gini = 0.0\nsamples = 2400\nvalue = [2400, 0, 0, 0]\nclass = fec", fillcolor="#e58139"] ;
+0 -> 1 [labeldistance=2.5, labelangle=45, headlabel="True"] ;
+2 [label="X[4] <= 4296.0\ngini = 0.667\nsamples = 7200\nvalue = [0, 2400, 2400, 2400]\nclass = monitoring", fillcolor="#ffffff"] ;
+0 -> 2 [labeldistance=2.5, labelangle=-45, headlabel="False"] ;
+3 [label="X[6] <= 1096.181\ngini = 0.604\nsamples = 5344\nvalue = [0, 2287, 686, 2371]\nclass = no_plugin", fillcolor="#fefafe"] ;
+2 -> 3 ;
+4 [label="X[9] <= 198539.18\ngini = 0.523\nsamples = 1058\nvalue = [0, 160, 678, 220]\nclass = datagram", fillcolor="#93c9f1"] ;
+3 -> 4 ;
+5 [label="gini = 0.017\nsamples = 684\nvalue = [0, 2, 678, 4]\nclass = datagram", fillcolor="#3b9ee5"] ;
+4 -> 5 ;
+6 [label="gini = 0.488\nsamples = 374\nvalue = [0, 158, 0, 216]\nclass = no_plugin", fillcolor="#f4caf8"] ;
+4 -> 6 ;
+7 [label="X[11] <= 2.445\ngini = 0.502\nsamples = 4286\nvalue = [0, 2127, 8, 2151]\nclass = no_plugin", fillcolor="#fffdff"] ;
+3 -> 7 ;
+8 [label="gini = 0.441\nsamples = 636\nvalue = [0, 431, 4, 201]\nclass = monitoring", fillcolor="#9ef196"] ;
+7 -> 8 ;
+9 [label="gini = 0.499\nsamples = 3650\nvalue = [0, 1696, 4, 1950]\nclass = no_plugin", fillcolor="#fae5fc"] ;
+7 -> 9 ;
+10 [label="X[1] <= 5408.5\ngini = 0.143\nsamples = 1856\nvalue = [0, 113, 1714, 29]\nclass = datagram", fillcolor="#49a5e7"] ;
+2 -> 10 ;
+11 [label="X[7] <= 1098.866\ngini = 0.448\nsamples = 124\nvalue = [0, 88, 25, 11]\nclass = monitoring", fillcolor="#8aee81"] ;
+10 -> 11 ;
+12 [label="gini = 0.547\nsamples = 46\nvalue = [0, 18, 25, 3]\nclass = datagram", fillcolor="#cee6f8"] ;
+11 -> 12 ;
+13 [label="gini = 0.184\nsamples = 78\nvalue = [0, 70, 0, 8]\nclass = monitoring", fillcolor="#5ce850"] ;
+11 -> 13 ;
+14 [label="X[0] <= 1.326\ngini = 0.049\nsamples = 1732\nvalue = [0, 25, 1689, 18]\nclass = datagram", fillcolor="#3e9fe6"] ;
+10 -> 14 ;
+15 [label="gini = 0.031\nsamples = 1711\nvalue = [0, 15, 1684, 12]\nclass = datagram", fillcolor="#3c9fe5"] ;
+14 -> 15 ;
+16 [label="gini = 0.635\nsamples = 21\nvalue = [0, 10, 5, 6]\nclass = monitoring", fillcolor="#cef8ca"] ;
+14 -> 16 ;
+}
