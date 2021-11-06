@@ -22,13 +22,12 @@ import json
 prefix = "../"
 
 
-with open(prefix + "results/results_tfidf.csv", "a") as stream:
+with open(prefix + "results/results_tfidf.csv", "w") as stream:
   csv_writer = csv.writer(stream, delimiter=',')
   csv_writer.writerow(["header","dim_red","algo","params","train_fold","test_fold","train","test","confusion"])
 
   # run with header and without header
-  # for with_header in [True, False]:
-  for with_header in [False]:
+  for with_header in [True, False]:
     
     df = None 
     vec = False
