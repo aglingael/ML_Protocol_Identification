@@ -2,11 +2,11 @@ digraph Tree {
 node [shape=box, style="filled, rounded", color="black", fontname="helvetica"] ;
 edge [fontname="helvetica"] ;
 0 [label="val['fix'] <= 0.0\ngini = 0.75\nsamples = 9600\nvalue = [2400, 2400, 2400, 2400]\nclass = fec", fillcolor="#ffffff"] ;
-1 [label="val['warn'] <= 0.0\ngini = 0.5\nsamples = 4800\nvalue = [0, 0, 2400, 2400]\nclass = datagram", fillcolor="#ffffff"] ;
+1 [label="val['warn'] <= 0.0\ngini = 0.5\nsamples = 4800\nvalue = [0, 0, 2400, 2400]\nclass = multipath", fillcolor="#ffffff"] ;
 0 -> 1 [labeldistance=2.5, labelangle=45, headlabel="True"] ;
 2 [label="gini = 0.0\nsamples = 2400\nvalue = [0, 0, 0, 2400]\nclass = no_plugin", fillcolor="#d739e5"] ;
 1 -> 2 ;
-3 [label="gini = 0.0\nsamples = 2400\nvalue = [0, 0, 2400, 0]\nclass = datagram", fillcolor="#399de5"] ;
+3 [label="gini = 0.0\nsamples = 2400\nvalue = [0, 0, 2400, 0]\nclass = multipath", fillcolor="#399de5"] ;
 1 -> 3 ;
 4 [label="val['resum'] <= 0.0\ngini = 0.5\nsamples = 4800\nvalue = [2400, 2400, 0, 0]\nclass = fec", fillcolor="#ffffff"] ;
 0 -> 4 [labeldistance=2.5, labelangle=-45, headlabel="False"] ;

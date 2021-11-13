@@ -12,6 +12,6 @@ edge [fontname="helvetica"] ;
 0 -> 4 [labeldistance=2.5, labelangle=-45, headlabel="False"] ;
 5 [label="gini = 0.0\nsamples = 2400\nvalue = [2400, 0, 0, 0]\nclass = fec", fillcolor="#e58139"] ;
 4 -> 5 ;
-6 [label="gini = 0.0\nsamples = 2400\nvalue = [0, 0, 2400, 0]\nclass = datagram", fillcolor="#399de5"] ;
+6 [label="gini = 0.0\nsamples = 2400\nvalue = [0, 0, 2400, 0]\nclass = multipath", fillcolor="#399de5"] ;
 4 -> 6 ;
 }

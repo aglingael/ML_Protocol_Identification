@@ -8,14 +8,14 @@ edge [fontname="helvetica"] ;
 0 -> 2 [labeldistance=2.5, labelangle=-45, headlabel="False"] ;
 3 [label="X[6] <= 1096.181\ngini = 0.6\nsamples = 5311\nvalue = [1, 2287, 651, 2372]\nclass = no_plugin", fillcolor="#fef9fe"] ;
 2 -> 3 ;
-4 [label="gini = 0.534\nsamples = 1025\nvalue = [1, 163, 645, 216]\nclass = datagram", fillcolor="#96cbf1"] ;
+4 [label="gini = 0.534\nsamples = 1025\nvalue = [1, 163, 645, 216]\nclass = multipath", fillcolor="#96cbf1"] ;
 3 -> 4 ;
 5 [label="gini = 0.501\nsamples = 4286\nvalue = [0, 2124, 6, 2156]\nclass = no_plugin", fillcolor="#fefcff"] ;
 3 -> 5 ;
-6 [label="X[1] <= 5293.0\ngini = 0.14\nsamples = 1890\nvalue = [0, 113, 1749, 28]\nclass = datagram", fillcolor="#49a5e7"] ;
+6 [label="X[1] <= 5293.0\ngini = 0.14\nsamples = 1890\nvalue = [0, 113, 1749, 28]\nclass = multipath", fillcolor="#49a5e7"] ;
 2 -> 6 ;
 7 [label="gini = 0.468\nsamples = 128\nvalue = [0, 87, 33, 8]\nclass = monitoring", fillcolor="#96f08e"] ;
 6 -> 7 ;
-8 [label="gini = 0.051\nsamples = 1762\nvalue = [0, 26, 1716, 20]\nclass = datagram", fillcolor="#3ea0e6"] ;
+8 [label="gini = 0.051\nsamples = 1762\nvalue = [0, 26, 1716, 20]\nclass = multipath", fillcolor="#3ea0e6"] ;
 6 -> 8 ;
 }
