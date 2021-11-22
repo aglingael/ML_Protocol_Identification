@@ -5,6 +5,7 @@ from sklearn.svm import SVC
 from sklearn.linear_model import SGDClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier, GradientBoostingClassifier
+from sklearn.naive_bayes import MultinomialNB
 from sklearn.model_selection import GridSearchCV
 from sklearn.decomposition import TruncatedSVD
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -14,20 +15,38 @@ from sklearn.model_selection import StratifiedKFold
 from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import cross_validate
 from sklearn import tree
-import dask
 import graphviz
 import csv
 import json
+import re
+
+def string_to_numpy(text, dtype=None):
+    """
+    Convert text into 1D or 2D arrays using np.matrix().
+    The result is returned as an np.ndarray.
+    """
+    text = text.strip()
+    # Using a regexp, decide whether the array is flat or not.
+    # The following matches either: "[1 2 3]" or "1 2 3"
+    is_flat = bool(re.match(r"^(\[[^\[].+[^\]]\]|[^\[].+[^\]])$",
+                            text, flags=re.S))
+    # Replace newline characters with semicolons.
+    text = text.replace("]\n", "];")
+    # Prepare the result.
+    result = np.asarray(np.matrix(text, dtype=dtype))
+    return result.flatten() if is_flat else result
 
 prefix = "../"
 
 
-with open(prefix + "results/results_tfidf.csv", "w") as stream:
+with open(prefix + "results/results_tfidf.csv", "a") as stream:
+# with open(prefix + "to_send/res_tfidf/results_tfidf.csv", "a") as stream:
   csv_writer = csv.writer(stream, delimiter=',')
-  csv_writer.writerow(["header","dim_red","algo","params","train_fold","test_fold","train","test","confusion"])
+  # csv_writer.writerow(["header","dim_red","algo","params","train_fold","test_fold","train","test","confusion","mean_confusion"])
 
   # run with header and without header
   for with_header in [True, False]:
+  # for with_header in [False]:
     
     df = None 
     vec = False
@@ -54,39 +73,53 @@ with open(prefix + "results/results_tfidf.csv", "w") as stream:
       vocab = sorted(tfidf.vocabulary_, key=tfidf.vocabulary_.get)
       with open(prefix + ("store/stems_vocab.txt" if with_header else "store/stems_no_head_vocab.txt"), "w") as file_voc:
         json.dump(vocab, file_voc)
+        print("vocabulary stored")
       
       y = df.target
       np.save(prefix + "store/target.npy", y)
+      print("target stored")
 
       head = 'matrix_stems_head' if with_header else 'matrix_stems_no_head'
       
-      print("saving sparse matrix")
+      print("saving X sparse features matrix after tfidf")
       save_npz(prefix + 'store/' + head + "_no_dim_red.npz", X)
       print("done")
+      print("X shape: ", X.shape)
       
       tsvd = TruncatedSVD(n_components=300, algorithm='randomized', n_iter=3)
       print("dimension reductionality launched")
       X = tsvd.fit_transform(X)
       print("dimension reductionality done")
-      print("print resulting matrix")
+      print("saving X reduced matrix")
       np.save(prefix + 'store/' + head + "_dim_red.npy", X)
       print("done")
+      print("X shape: ", X.shape)
 
     else:
+      if with_header:
+        print("loading dataset with header")
+      else:
+        print("loading dataset without header")
       with open(prefix + ("store/stems_vocab.txt" if with_header else "store/stems_no_head_vocab.txt"), "r") as file_voc:
         vocab = json.load(file_voc)
+        print("vocabulary loading for no dimensionality reduction case")
       y = np.load(prefix + "store/target.npy", allow_pickle=True)
   
     for dim_red in [True, False]:
+    # for dim_red in [False]:
 
       head = 'matrix_stems_head' if with_header else 'matrix_stems_no_head'
       dim = "_dim_red.npy" if dim_red else "_no_dim_red.npz"
       filename = head + dim
 
       if dim_red:
+        print("loading X matrix with dimensionality reduction")
         X = np.load(prefix + 'store/' + filename, allow_pickle=True)
+        print("X shape: ", X.shape)
       else:
+        print("loading X matrix without dimensionality reduction")
         X = load_npz(prefix + 'store/' + filename)
+        print("X shape: ", X.shape)
 
       ## SGD
       mod_sgd = "SGD"
@@ -138,9 +171,19 @@ with open(prefix + "results/results_tfidf.csv", "w") as stream:
           'C': [1, 10]
       }
 
+      mod_nb = "NB"
+      clf_nb = MultinomialNB()
+      pgrid_nb = {
+          'alpha': [0.1, 0.5, 1]
+      }
+
       # loop in each classifier and its parameters for grid-search
-      for name, clf, pgrid in zip([mod_dt, mod_ada, mod_gb, mod_rf, mod_svm, mod_sgd], [clf_dt, clf_ada, clf_gb, clf_rf, clf_svm, clf_sgd], [pgrid_dt, pgrid_ada, pgrid_gb, pgrid_rf, pgrid_svm, pgrid_sgd]):
-        
+      for name, clf, pgrid in zip([mod_dt, mod_ada, mod_gb, mod_rf, mod_svm, mod_sgd, mod_nb], [clf_dt, clf_ada, clf_gb, clf_rf, clf_svm, clf_sgd, clf_nb], [pgrid_dt, pgrid_ada, pgrid_gb, pgrid_rf, pgrid_svm, pgrid_sgd, pgrid_nb]):
+      # for name, clf, pgrid in zip([mod_nb], [clf_nb], [pgrid_nb]):
+
+        if name == "NB" and dim_red is True:
+          continue
+
         print("header:", with_header, "dim_red", dim_red, "algo:", name)
         n_folds = 5
         skf = StratifiedKFold(n_splits=n_folds)
@@ -171,6 +214,8 @@ with open(prefix + "results/results_tfidf.csv", "w") as stream:
           model = RandomForestClassifier(**gs.best_params_)
         elif name == "SVM":
           model = SVC(**gs.best_params_)
+        elif name == "NB":
+          model = MultinomialNB(**gs.best_params_)
         
         print("re-run model")
         cv_results = cross_validate(model, X, y, cv=iter(fold_indexes), return_estimator=True, n_jobs=n_folds)
@@ -185,11 +230,16 @@ with open(prefix + "results/results_tfidf.csv", "w") as stream:
           y_pred = cv_results['estimator'][k].predict(X_test)
           confusion_str += str(confusion_matrix(y_test, y_pred)) + "\n\n"
 
+          matrices = confusion_str.strip().split("\n\n")
+          matrices = list(map(lambda x : string_to_numpy(x), matrices)) 
+          mean_matrix = np.mean( np.array(matrices), axis=0 )
+          mean_matrix = str(mean_matrix)
+
         
           if name == "DT" and dim_red is False:
             dot_data = tree.export_graphviz(cv_results['estimator'][k], out_file=None, 
                                             feature_names=list(map(lambda x: "val['{}']".format(x), vocab)),
-                                            class_names=["fec", "monitoring", "datagram", "no_plugin"],  
+                                            class_names=["fec", "monitoring", "multipath", "no_plugin"],  
                                             filled=True, rounded=True,  
                                             special_characters=False)  
             graph = graphviz.Source(dot_data) 
@@ -197,5 +247,5 @@ with open(prefix + "results/results_tfidf.csv", "w") as stream:
             graph.render(prefix + "/charts/" + filename)  
         print("\n\n")
         
-        csv_writer.writerow(["1" if with_header else "0", "1" if dim_red else "0", name, str(gs.best_params_), ",".join(str(v) for v in best_train_scores), ",".join(str(v) for v in best_test_scores), str(mean_train_score), str(mean_test_score), confusion_str])
+        csv_writer.writerow(["1" if with_header else "0", "1" if dim_red else "0", name, str(gs.best_params_), ",".join(str(v) for v in best_train_scores), ",".join(str(v) for v in best_test_scores), str(mean_train_score), str(mean_test_score), confusion_str, mean_matrix])
         stream.flush()

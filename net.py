@@ -13,6 +13,23 @@ from sklearn import tree
 import graphviz
 import csv
 from copy import deepcopy
+import re
+
+def string_to_numpy(text, dtype=None):
+    """
+    Convert text into 1D or 2D arrays using np.matrix().
+    The result is returned as an np.ndarray.
+    """
+    text = text.strip()
+    # Using a regexp, decide whether the array is flat or not.
+    # The following matches either: "[1 2 3]" or "1 2 3"
+    is_flat = bool(re.match(r"^(\[[^\[].+[^\]]\]|[^\[].+[^\]])$",
+                            text, flags=re.S))
+    # Replace newline characters with semicolons.
+    text = text.replace("]\n", "];")
+    # Prepare the result.
+    result = np.asarray(np.matrix(text, dtype=dtype))
+    return result.flatten() if is_flat else result
 
 prefix = "../"
 
@@ -71,7 +88,7 @@ pgrid_svm =  {
 
 with open(prefix + "results/results_net.csv", "w") as stream:
   csv_writer = csv.writer(stream, delimiter=',')
-  csv_writer.writerow(["algo","params","variance","train_fold","test_fold","train","test","confusion"])
+  csv_writer.writerow(["algo","params","variance","train_fold","test_fold","train","test","confusion","mean_confusion"])
 
   df = pd.read_feather(prefix + "store/data_net.feather")
 
@@ -132,9 +149,14 @@ with open(prefix + "results/results_net.csv", "w") as stream:
         y_pred = cv_results['estimator'][k].predict(X_test)
         confusion_str += str(confusion_matrix(y_test, y_pred)) + "\n\n"
 
+        matrices = confusion_str.strip().split("\n\n")
+        matrices = list(map(lambda x : string_to_numpy(x), matrices)) 
+        mean_matrix = np.mean( np.array(matrices), axis=0 )
+        mean_matrix = str(mean_matrix)
+
         if name == "DT":
           dot_data = tree.export_graphviz(cv_results['estimator'][k], out_file=None,
-                                          class_names=["fec", "monitoring", "datagram", "no_plugin"],
+                                          class_names=["fec", "monitoring", "multipath", "no_plugin"],
                                           filled=True, rounded=True,
                                           special_characters=False)
           graph = graphviz.Source(dot_data)
@@ -142,5 +164,5 @@ with open(prefix + "results/results_net.csv", "w") as stream:
           graph.render(prefix + "/charts/" + filename)
       print("\n\n")
 
-      csv_writer.writerow([name, str(gs.best_params_), "1" if is_var else "0", ",".join(str(v) for v in best_train_scores), ",".join(str(v) for v in best_test_scores), str(mean_train_score), str(mean_test_score), confusion_str])
+      csv_writer.writerow([name, str(gs.best_params_), "1" if is_var else "0", ",".join(str(v) for v in best_train_scores), ",".join(str(v) for v in best_test_scores), str(mean_train_score), str(mean_test_score), confusion_str, mean_matrix])
       stream.flush()
