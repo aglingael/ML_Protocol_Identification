@@ -1,0 +1,29 @@
+digraph Tree {
+node [shape=box, style="filled, rounded", color="black", fontname="helvetica"] ;
+edge [fontname="helvetica"] ;
+0 [label="average_s_bytes <= 776.325\ngini = 0.75\nsamples = 9600\nvalue = [2400, 2400, 2400, 2400]\nclass = fec", fillcolor="#ffffff"] ;
+1 [label="s_durat <= 51.66\ngini = 0.003\nsamples = 2396\nvalue = [2393, 1, 1, 1]\nclass = fec", fillcolor="#e58139"] ;
+0 -> 1 [labeldistance=2.5, labelangle=45, headlabel="True"] ;
+2 [label="variance_out <= 413609.094\ngini = 0.002\nsamples = 2395\nvalue = [2393, 1, 0, 1]\nclass = fec", fillcolor="#e58139"] ;
+1 -> 2 ;
+3 [label="gini = 0.0\nsamples = 2383\nvalue = [2383, 0, 0, 0]\nclass = fec", fillcolor="#e58139"] ;
+2 -> 3 ;
+4 [label="gini = 0.292\nsamples = 12\nvalue = [10, 1, 0, 1]\nclass = fec", fillcolor="#ea985d"] ;
+2 -> 4 ;
+5 [label="gini = 0.0\nsamples = 1\nvalue = [0, 0, 1, 0]\nclass = multipath", fillcolor="#399de5"] ;
+1 -> 5 ;
+6 [label="variance_in <= 200368.688\ngini = 0.667\nsamples = 7204\nvalue = [7, 2399, 2399, 2399]\nclass = monitoring", fillcolor="#ffffff"] ;
+0 -> 6 [labeldistance=2.5, labelangle=-45, headlabel="False"] ;
+7 [label="ratio_pkts <= 0.439\ngini = 0.508\nsamples = 4806\nvalue = [3, 2375, 38, 2390]\nclass = no_plugin", fillcolor="#fffeff"] ;
+6 -> 7 ;
+8 [label="gini = 0.477\nsamples = 2375\nvalue = [2, 1446, 1, 926]\nclass = monitoring", fillcolor="#bdf6b8"] ;
+7 -> 8 ;
+9 [label="gini = 0.491\nsamples = 2431\nvalue = [1, 929, 37, 1464]\nclass = no_plugin", fillcolor="#f1b8f6"] ;
+7 -> 9 ;
+10 [label="c_bytes_all <= 4389.0\ngini = 0.031\nsamples = 2398\nvalue = [4, 24, 2361, 9]\nclass = multipath", fillcolor="#3c9fe5"] ;
+6 -> 10 ;
+11 [label="gini = 0.538\nsamples = 24\nvalue = [4, 15, 0, 5]\nclass = monitoring", fillcolor="#9ef197"] ;
+10 -> 11 ;
+12 [label="gini = 0.011\nsamples = 2374\nvalue = [0, 9, 2361, 4]\nclass = multipath", fillcolor="#3a9ee5"] ;
+10 -> 12 ;
+}

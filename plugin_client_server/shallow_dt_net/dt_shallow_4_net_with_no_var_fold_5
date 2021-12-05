@@ -1,0 +1,37 @@
+digraph Tree {
+node [shape=box, style="filled, rounded", color="black", fontname="helvetica"] ;
+edge [fontname="helvetica"] ;
+0 [label="X[8] <= 7.675\ngini = 0.75\nsamples = 9600\nvalue = [2400, 2400, 2400, 2400]\nclass = fec", fillcolor="#ffffff"] ;
+1 [label="X[4] <= 4302.0\ngini = 0.673\nsamples = 7267\nvalue = [67, 2400, 2400, 2400]\nclass = monitoring", fillcolor="#ffffff"] ;
+0 -> 1 [labeldistance=2.5, labelangle=45, headlabel="True"] ;
+2 [label="X[6] <= 1096.181\ngini = 0.6\nsamples = 5311\nvalue = [1, 2287, 651, 2372]\nclass = no_plugin", fillcolor="#fef9fe"] ;
+1 -> 2 ;
+3 [label="X[6] <= 1051.088\ngini = 0.534\nsamples = 1025\nvalue = [1, 163, 645, 216]\nclass = multipath", fillcolor="#96cbf1"] ;
+2 -> 3 ;
+4 [label="gini = 0.492\nsamples = 374\nvalue = [1, 159, 0, 214]\nclass = no_plugin", fillcolor="#f5ccf8"] ;
+3 -> 4 ;
+5 [label="gini = 0.018\nsamples = 651\nvalue = [0, 4, 645, 2]\nclass = multipath", fillcolor="#3b9ee5"] ;
+3 -> 5 ;
+6 [label="X[8] <= 2.453\ngini = 0.501\nsamples = 4286\nvalue = [0, 2124, 6, 2156]\nclass = no_plugin", fillcolor="#fefcff"] ;
+2 -> 6 ;
+7 [label="gini = 0.453\nsamples = 711\nvalue = [0, 468, 3, 240]\nclass = monitoring", fillcolor="#a6f29f"] ;
+6 -> 7 ;
+8 [label="gini = 0.498\nsamples = 3575\nvalue = [0, 1656, 3, 1916]\nclass = no_plugin", fillcolor="#fae4fb"] ;
+6 -> 8 ;
+9 [label="X[1] <= 5917.5\ngini = 0.196\nsamples = 1956\nvalue = [66, 113, 1749, 28]\nclass = multipath", fillcolor="#4fa8e8"] ;
+1 -> 9 ;
+10 [label="X[7] <= 629.032\ngini = 0.654\nsamples = 194\nvalue = [65, 87, 34, 8]\nclass = monitoring", fillcolor="#e0fbdd"] ;
+9 -> 10 ;
+11 [label="gini = 0.0\nsamples = 65\nvalue = [65, 0, 0, 0]\nclass = fec", fillcolor="#e58139"] ;
+10 -> 11 ;
+12 [label="gini = 0.472\nsamples = 129\nvalue = [0, 87, 34, 8]\nclass = monitoring", fillcolor="#98f091"] ;
+10 -> 12 ;
+13 [label="X[0] <= 1.33\ngini = 0.052\nsamples = 1762\nvalue = [1, 26, 1715, 20]\nclass = multipath", fillcolor="#3ea0e6"] ;
+9 -> 13 ;
+14 [label="gini = 0.03\nsamples = 1735\nvalue = [1, 11, 1709, 14]\nclass = multipath", fillcolor="#3c9ee5"] ;
+13 -> 14 ;
+15 [label="gini = 0.593\nsamples = 27\nvalue = [0, 15, 6, 6]\nclass = monitoring", fillcolor="#b0f4aa"] ;
+13 -> 15 ;
+16 [label="gini = 0.0\nsamples = 2333\nvalue = [2333, 0, 0, 0]\nclass = fec", fillcolor="#e58139"] ;
+0 -> 16 [labeldistance=2.5, labelangle=-45, headlabel="False"] ;
+}

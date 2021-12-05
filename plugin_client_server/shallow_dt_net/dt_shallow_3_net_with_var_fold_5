@@ -1,0 +1,21 @@
+digraph Tree {
+node [shape=box, style="filled, rounded", color="black", fontname="helvetica"] ;
+edge [fontname="helvetica"] ;
+0 [label="X[10] <= 226266.359\ngini = 0.75\nsamples = 9600\nvalue = [2400, 2400, 2400, 2400]\nclass = fec", fillcolor="#ffffff"] ;
+1 [label="gini = 0.0\nsamples = 2399\nvalue = [2399, 0, 0, 0]\nclass = fec", fillcolor="#e58139"] ;
+0 -> 1 [labeldistance=2.5, labelangle=45, headlabel="True"] ;
+2 [label="X[4] <= 4302.0\ngini = 0.667\nsamples = 7201\nvalue = [1, 2400, 2400, 2400]\nclass = monitoring", fillcolor="#ffffff"] ;
+0 -> 2 [labeldistance=2.5, labelangle=-45, headlabel="False"] ;
+3 [label="X[6] <= 1096.181\ngini = 0.6\nsamples = 5311\nvalue = [1, 2287, 651, 2372]\nclass = no_plugin", fillcolor="#fef9fe"] ;
+2 -> 3 ;
+4 [label="gini = 0.534\nsamples = 1025\nvalue = [1, 163, 645, 216]\nclass = multipath", fillcolor="#96cbf1"] ;
+3 -> 4 ;
+5 [label="gini = 0.501\nsamples = 4286\nvalue = [0, 2124, 6, 2156]\nclass = no_plugin", fillcolor="#fefcff"] ;
+3 -> 5 ;
+6 [label="X[1] <= 5293.0\ngini = 0.14\nsamples = 1890\nvalue = [0, 113, 1749, 28]\nclass = multipath", fillcolor="#49a5e7"] ;
+2 -> 6 ;
+7 [label="gini = 0.468\nsamples = 128\nvalue = [0, 87, 33, 8]\nclass = monitoring", fillcolor="#96f08e"] ;
+6 -> 7 ;
+8 [label="gini = 0.051\nsamples = 1762\nvalue = [0, 26, 1716, 20]\nclass = multipath", fillcolor="#3ea0e6"] ;
+6 -> 8 ;
+}
